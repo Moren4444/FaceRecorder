@@ -1,1 +1,5 @@
-Download the main.ipynb file and run from the top to the bottom
+Run the program
+- Run start.bat to start 
+
+Add new faces to database
+- Add it to face_database\[yourname]\
