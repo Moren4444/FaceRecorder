@@ -1,0 +1,220 @@
+body {
+    background-color: rgb(31, 31, 31);
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+}
+
+h1 {
+    color: #E4E4E4;
+    font-family: "Oswald";
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+p {
+    color: #fff;
+    font-size: 18px;
+}
+
+#nav-box {
+    background-color: rgb(20, 19, 19);
+    padding-left: 48px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    gap: 64px;
+    display: flex;
+
+}
+
+#nav-btn {
+    background-color: rgb(20, 19, 19);
+    color: #E4E4E4;
+    font-size: 36px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+
+}
+
+#content-box {
+    padding-top: 30px;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+/* CSS */
+.green-btn {
+    background-color: #13aa52;
+    border: 1px solid #13aa52;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    outline: none;
+    outline: 0;
+    padding: 10px 25px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.green-btn:hover {
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+    transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+    .green-btn {
+        padding: 10px 30px;
+    }
+}
+
+#output {
+    color: #fff;
+}
+
+.upload-btn {
+    color: #ffffff00;
+    size: 0px;
+    display: flex;
+    flex-direction: row;
+}
+
+.upload-btn::file-selector-button{
+    background-color: #0c3dc6;
+    border: 1px solid #131678;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    outline: none;
+    outline: 0;
+    padding: 10px 25px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.upload-btn::file-selector-button:hover{
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+    transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+    .upload-btn::file-selector-button {
+        padding: 10px 30px;
+    }
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.video-card p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.video-card img {
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.video-title {
+    margin-top: 8px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.eyebrow{
+    font-size: 12px;
+    margin-bottom: -36px;
+}
+
+.dotted-box{
+    padding: 16px;
+    background-color: rgb(29, 28, 28);
+    border-radius: 18px;
+    border: 3px dotted #e5e5e5
+}
+
+.dotted-box-fit{
+    width: fit-content;
+}
+
+.dotted-box-flex{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* horizontal centering */
+    align-items: center;     /* vertical centering */
+    text-align: center;
+    gap: 24px;
+}
+
+.box-container-horizontal{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.box-container-vertical{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.text-input-box{
+    background-color: #000000fe;
+    border: 1.5px solid #E4E4E4;
+    border-radius: 8px;
+    height: 30px;
+    padding: 6px;
+    caret-color: white;
+    color: #fff;
+    text-align: center;
+    width: 75%;
+}
+
+.small-btn{
+    font-size: 16px;
+}
+
+.alternates{
+    height: 250px;
+}
+
+.dropdown1{
+    background-color: #0c3dc6;
+    border: 1px solid #210085;;
+    border-radius: 4px;
+    padding: 10px 25px;
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+}
+
+.dropdown1 option{
+    background-color: rgb(38, 0, 112);
+    height: fit-content;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Time Face Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="nav-box">
+        <a href="{{ url_for('liveStreamPage') }}" id="nav-btn">📽️Live Streaming</a>
+        <a href="{{ url_for('uploadVidPage') }}" id="nav-btn">🎞️Upload Video</a>
+        <a href="{{ url_for('assignFacePage') }}" id="nav-btn">🫠Face Assingment</a>
+    </div>
+    <div id="content-box">
+        <pre id="output"></pre>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <div class="box-container-horizontal">
+            <div class="dotted-box dotted-box-fit">
+                <p class="eyebrow">PERSON ADDITION</p>
+                <h1>Add Your Person Here! 👉</h1>
+                <hr>
+                <p>Add the person you'd like the system to recognize by inputing their name.</p>
+            </div>
+            <form id="addPerson" class="dotted-box dotted-box-flex">
+                <input type="text" id="personName" placeholder="Example: john" class="text-input-box">
+                <button class="green-btn small-btn">Add to database</button>
+            </form>
+        </div>
+        <br>
+        <div class="box-container-horizontal">
+            <div class="dotted-box dotted-box-fit" style="gap: 0px; width: 48%; align-content: center;">
+                    <p class="eyebrow">FACE ASSIGNING</p>
+                    <h1>Assign The Face Down There 👇</h1>
+                    <p>
+                        After adding someone to the database, let's start giving the system some face
+                        to recognize. Just choose look at the face below and assign them to their respectful
+                        owner using the drop down menu.
+                    </p>
+                    <p>
+                        Didn't see anything below? Start uploading them now!
+                        (Though streaming or uploading a video)
+                    </p>
+
+            </div>
+            <div class="dotted-box dotted-box-flex" style="gap: 0px;">
+                <p class="eyebrow">UPDATE DATABASE</p>
+                <h1>Finished Assigning? Update it!</h1>
+                <p>Press the following button to let the model scan through all of the images to detect
+                    the faces. (This will take some time if the database is big, so please wait patiently)
+                </p>
+                <button class="green-btn" id="updateDatabase">Update database</button>
+            </div>
+        </div>
+
+        <div class="video-grid">
+            {% for image in images %}
+            <form class="video-card" id="{{ image.title }}Form" action="{{url_for('assignFace', image = image.image)}}"
+                method="POST">
+                <img src="{{ url_for('detected_unknown', filename=image.image) }}" alt="{{ image.title }}"
+                    class="alternates" id="{{ image.title }}">
+                <p>{{ image.title }}</p>
+                <div class="box-container-vertical">
+                    <select name="person" id="select{{ image.title }}" class="dropdown1">
+                        {% for known in knowns %}
+                        <option value="{{known.name}}">{{ known.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="green-btn">Assign</button>
+                </div>
+
+            </form>
+            <!-- <script>
+                document.getElementById("{{ images.title }}Form").addEventListener("submit", async ()=> {
+                    const image = "{{ images.title }}";
+                    const assignPerson = document.getElementById("select{{ images.title }}").value;
+
+                })
+            </script> -->
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("addPerson").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const value = document.getElementById("personName").value;
+            const formData = new FormData();
+            formData.append("name", value);
+            const response = await fetch("/AddPerson", { method: "POST", body: formData });
+            const result = await response.text();
+            document.getElementById("output").innerText = result;
+        })
+    </script>
+
+    <script>
+        document.getElementById("updateDatabase").addEventListener("click", async ()=>{
+            document.getElementById("output").innerText = "Processing database";
+            const response = await fetch("/updateDatabase", { method: "POST"});
+            const result = await response.text();
+            document.getElementById("output").innerText = result;
+        })
+    </script>
+
+</body>
+
+</html>

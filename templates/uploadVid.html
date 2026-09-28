@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Time Face Detector</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <div id="nav-box">
+    <a href="{{ url_for('liveStreamPage') }}" id="nav-btn">📽️Live Streaming</a>
+    <a href="{{ url_for('uploadVidPage') }}" id="nav-btn">🎞️Upload Video</a>
+    <a href="{{ url_for('assignFacePage') }}" id="nav-btn">🫠Face Assingment</a>
+  </div>
+  <div id="content-box">
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" name="vid" id="vidInput" class="upload-btn">
+      <p id="vidName"></p>
+      <video id="vidPreview" width="300" controls style="display: none;"></video>
+      <button type="submit" class="green-btn">Upload</button>
+      <pre id="output"></pre>
+    </form>
+    <p>
+      Click on the button above to start uploading your mp4 files.
+    </p>
+    <p>
+      Click on the videos below to process it
+    </p>
+    <div class="video-grid">
+      {% for video in videos %}
+      <div class="video-card">
+        <img src="{{ url_for('uploaded_file', filename=video.thumbnail_file) }}" alt="{{ video.title }}"
+          class="video-thumbnail" data-video-url="{{ url_for('uploaded_file', filename=video.video_file) }}"
+          data-video-title="{{ video.title }}">
+        <p>{{ video.title }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const file = document.getElementById("vidInput").files[0];
+      if (!file) {
+        document.getElementById("output").innerText = "Please select a video first.";
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("vid", file);
+      document.getElementById("output").innerText = "Uploading..."
+
+      const response = await fetch("/uploadVid", { method: "POST", body: formData })
+      const result = await response.text();
+      document.getElementById("output").innerText = result;
+    });
+  </script>
+
+  <script>
+    const vidInput = document.getElementById("vidInput");
+    const vidName = document.getElementById("vidName");
+    const vidPreview = document.getElementById("vidPreview");
+
+    vidInput.addEventListener("change", () => {
+      const vid = vidInput.files[0];
+      if (vid) {
+        vidName.innerHTML = vid.name;
+
+        const vidURL = URL.createObjectURL(vid);
+        vidPreview.src = vidURL;
+        vidPreview.style.display = "block";
+        vidPreview.style.margin = "30px";
+      }
+    })
+  </script>
+
+  <script>
+    document.querySelectorAll(".video-thumbnail").forEach((thumbnail) => {
+      thumbnail.addEventListener("click", async () => {
+        vidPreview.src = thumbnail.dataset.videoUrl;
+        vidPreview.style.display = "block";
+        vidPreview.load();
+
+        const response = await fetch("/processVideo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title: thumbnail.dataset.videoTitle })
+        });
+        const result = await response.json();
+        document.getElementById("output").innerText = result.message || result.error;
+      });
+    });
+  </script>
+</body>
+
+</html>

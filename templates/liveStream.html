@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Time Face Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div id="nav-box">
+    <a href="{{ url_for('liveStreamPage') }}" id="nav-btn">📽️Live Streaming</a>
+    <a href="{{ url_for('uploadVidPage') }}" id="nav-btn">🎞️Upload Video</a>
+    <a href="{{ url_for('assignFacePage') }}" id="nav-btn">🫠Face Assingment</a>
+  </div>
+  <div id="content-box">
+    <button class="green-btn" id="start-record-btn">Start Record</button>
+    <pre id="output"></pre>
+    <p>
+      Click on the button above to start your webcam, where the program will detect all of the faces.
+    </p>
+    <p>
+      A recording will also be downloaded after your exit the program. Access it in the "recordings" folder
+    </p>
+  </div>
+
+
+  <script>
+    document.getElementById("start-record-btn").addEventListener("click", async () => {
+      document.getElementById("output").innerText = "Running...\nPress Q or Esc to exit the program";
+      const response = await fetch("/start_record", { method: "POST" });
+      const result = await response.text();
+      document.getElementById("output").innerText = "Recording ended.";
+    });
+  </script>
+</body>
+</html>
